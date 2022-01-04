@@ -22,6 +22,13 @@ async function run() {
         await client.connect();
         const database = client.db("hero_rider");
         const userCollection = database.collection("user");
+        const bookCollection = database.collection("book");
+
+        app.get('/books', async (req, res) => {
+            const cursor = bookCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result);
+        })
 
 
         // GET API 
@@ -30,6 +37,8 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         })
+
+
         app.get('/user/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email: email };
